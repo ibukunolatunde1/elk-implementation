@@ -15,11 +15,9 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - data01:/usr/share/elasticsearch/data
+      - ./elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
     ports:
       - 9200:9200
-    # networks:
-    #   - elastic
   es02:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.14.0
     container_name: es02
@@ -35,9 +33,7 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - data02:/usr/share/elasticsearch/data
-    # networks:
-    #   - elastic
+      - ./elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
   es03:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.14.0
     container_name: es03
@@ -53,17 +49,13 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - data03:/usr/share/elasticsearch/data
-    # networks:
-    #   - elastic
+      - ./elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
   kibana:
     image: docker.elastic.co/kibana/kibana:7.14.0
     ports:
         - 5601:5601
     volumes:
         - ./kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
-    # networks:
-    #   - elastic
   web_server:
     build:
         context: ./nginx
@@ -72,15 +64,3 @@ services:
         - 80:80
     volumes:
         - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-
-volumes:
-  data01:
-    driver: local
-  data02:
-    driver: local
-  data03:
-    driver: local
-
-# networks:
-#   elastic:
-#     driver: bridge
